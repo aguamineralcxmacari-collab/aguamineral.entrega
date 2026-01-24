@@ -47,11 +47,22 @@
         <option>Dois de julho</option>
       </select>
 
-      <input id="complemento" required placeholder="Rua / Nº / Referência" class="w-full px-4 py-3 rounded-xl border-2">
+      <input id="complemento" required placeholder="Rua / Nº / Referência"
+             class="w-full px-4 py-3 rounded-xl border-2">
+
+      <!-- MARCA -->
+      <select id="marca" required class="w-full px-4 py-3 rounded-xl border-2">
+        <option value="">Selecione a marca</option>
+        <option value="Itagy">Itagy</option>
+        <option value="davida">Fonte D'vida</option>
+        <option value="Imbassaí">Imbassaí</option>
+      </select>
+
+      <p id="precosMarca" class="text-sm text-gray-600"></p>
 
       <!-- PRODUTOS -->
       <div>
-        <p class="font-semibold mb-2">Garrafão Completo (R$ 28,00)</p>
+        <p class="font-semibold mb-2">Garrafão Completo</p>
         <div class="flex items-center gap-4">
           <button type="button" onclick="alterar('completo',-1)">−</button>
           <input id="qtdCompleto" value="0" readonly class="w-16 text-center border-2 rounded">
@@ -60,7 +71,7 @@
       </div>
 
       <div>
-        <p class="font-semibold mb-2">Garrafão Troca (R$ 8,00)</p>
+        <p class="font-semibold mb-2">Garrafão Troca</p>
         <div class="flex items-center gap-4">
           <button type="button" onclick="alterar('troca',-1)">−</button>
           <input id="qtdTroca" value="0" readonly class="w-16 text-center border-2 rounded">
@@ -74,7 +85,7 @@
       <!-- RESUMO -->
       <div class="bg-cyan-50 rounded-xl p-4 text-sm space-y-1">
         <div class="flex justify-between"><span>Subtotal</span><span>R$ <span id="subtotal">0,00</span></span></div>
-        <div class="flex justify-between"><span>Taxa de entrega</span><span>R$ <span id="taxa">0,00</span></span></div>
+        <div class="flex justify-between"><span>Taxa</span><span>R$ <span id="taxa">0,00</span></span></div>
         <div class="flex justify-between font-extrabold text-cyan-700 text-lg">
           <span>Total</span><span>R$ <span id="total">0,00</span></span>
         </div>
@@ -118,9 +129,12 @@
 </div>
 
 <script>
-const chavePixVendedor = "71991167085";
-const anoAtual = new Date().getFullYear();
-const anoMaximo = anoAtual + 3;
+/* CONFIGURAÇÕES */
+const marcas = {
+  Itagy: { nome: "Itagy", completo: 28, troca: 8 },
+  davida: { nome: "Fonte D'vida", completo: 32, troca: 10 },
+  Imbassaí: { nome: "Imbassaí", completo: 32, troca: 10 }
+};
 
 const taxas = {
   "Parque Verde I":2,"Parque Verde II":2,"Gleba E":2,"Gleba C":2,
@@ -132,14 +146,26 @@ const taxas = {
   "Burisatuba":2,"Dois de julho":2
 };
 
+const anoAtual = new Date().getFullYear();
+const anoMaximo = anoAtual + 3;
+
+/* ELEMENTOS */
+const nome = document.getElementById('nome');
+const telefone = document.getElementById('telefone');
 const bairro = document.getElementById('bairro');
+const complemento = document.getElementById('complemento');
+const marcaSelect = document.getElementById('marca');
+const precosMarca = document.getElementById('precosMarca');
+
 const qtdCompleto = document.getElementById('qtdCompleto');
 const qtdTroca = document.getElementById('qtdTroca');
 const validadeContainer = document.getElementById('validadeContainer');
+
 const subtotalEl = document.getElementById('subtotal');
 const taxaEl = document.getElementById('taxa');
 const totalEl = document.getElementById('total');
 
+/* PRODUTOS */
 function alterar(tipo, v){
   const campo = tipo === 'completo' ? qtdCompleto : qtdTroca;
   campo.value = Math.max(0, Number(campo.value) + v);
@@ -159,12 +185,29 @@ function gerarCamposValidade(){
 }
 
 function calcular(){
-  const subtotal = (qtdCompleto.value * 28) + (qtdTroca.value * 8);
+  if(!marcaSelect.value){
+    subtotalEl.innerText = taxaEl.innerText = totalEl.innerText = '0,00';
+    return;
+  }
+
+  const marca = marcas[marcaSelect.value];
+  const subtotal =
+    (qtdCompleto.value * marca.completo) +
+    (qtdTroca.value * marca.troca);
+
   const taxa = taxas[bairro.value] || 0;
-  subtotalEl.innerText = subtotal.toFixed(2).replace('.',',');
-  taxaEl.innerText = taxa.toFixed(2).replace('.',',');
-  totalEl.innerText = (subtotal + taxa).toFixed(2).replace('.',',');
+
+  subtotalEl.innerText = subtotal.toFixed(2).replace('.', ',');
+  taxaEl.innerText = taxa.toFixed(2).replace('.', ',');
+  totalEl.innerText = (subtotal + taxa).toFixed(2).replace('.', ',');
 }
+
+marcaSelect.addEventListener('change', () => {
+  const m = marcas[marcaSelect.value];
+  precosMarca.innerText =
+    `Completo: R$ ${m.completo},00 | Troca: R$ ${m.troca},00`;
+  calcular();
+});
 
 bairro.addEventListener('change', calcular);
 
@@ -195,39 +238,37 @@ precisaTroco.addEventListener('change', () => {
 document.getElementById('order-form').addEventListener('submit', e => {
   e.preventDefault();
 
+  if(pagamento.value === 'CARTAO' && !tipoCartao.value){
+    alert('Selecione Débito ou Crédito');
+    return;
+  }
+
+  if(pagamento.value === 'DINHEIRO' && precisaTroco.checked && !trocoPara.value){
+    alert('Informe o valor do troco');
+    return;
+  }
+
   let anosTxt = '';
-  document.querySelectorAll('.validade').forEach((campo, i) => {
-    anosTxt += `\n• Garrafão ${i+1}: ${campo.value}`;
+  document.querySelectorAll('.validade').forEach((c, i) => {
+    anosTxt += `\n• Garrafão ${i+1}: ${c.value}`;
   });
 
-  let pagamentoTxt = pagamento.value;
-  if(pagamento.value === 'PIX'){
-    pagamentoTxt += `\n🔑 Chave Pix do vendedor: ${chavePixVendedor} = Antonio Barbosa`;
-  }
-  if(pagamento.value === 'DINHEIRO'){
-    pagamentoTxt += precisaTroco.checked ? ` (Troco para ${trocoPara.value})` : ' (Sem troco)';
-  }
-  if(pagamento.value === 'CARTAO'){
-    pagamentoTxt += ` (${tipoCartao.value})`;
-  }
+  const marca = marcas[marcaSelect.value].nome;
 
   const msg = `
 🧾 NOVO PEDIDO
-
 👤 ${nome.value}
 📞 ${telefone.value}
 
-📍 Endereço:
-${bairro.value}
+📍 ${bairro.value}
 ${complemento.value}
+
+🏷️ Marca: ${marca}
 
 💧 Produtos:
 • Completo: ${qtdCompleto.value}
 • Troca: ${qtdTroca.value}
-${anosTxt ? `\n📆 Validade dos garrafões:${anosTxt}` : ''}
-
-💳 Pagamento:
-${pagamentoTxt}
+${anosTxt}
 
 💰 Total: R$ ${totalEl.innerText}
 `;
