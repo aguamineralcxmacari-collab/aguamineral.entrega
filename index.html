@@ -50,7 +50,6 @@
       <input id="complemento" required placeholder="Rua / Nº / Referência"
              class="w-full px-4 py-3 rounded-xl border-2">
 
-      <!-- MARCA -->
       <select id="marca" required class="w-full px-4 py-3 rounded-xl border-2">
         <option value="">Selecione a marca</option>
         <option value="Itagy">Itagy</option>
@@ -60,7 +59,6 @@
 
       <p id="precosMarca" class="text-sm text-gray-600"></p>
 
-      <!-- PRODUTOS -->
       <div>
         <p class="font-semibold mb-2">Garrafão Completo</p>
         <div class="flex items-center gap-4">
@@ -79,10 +77,8 @@
         </div>
       </div>
 
-      <!-- VALIDADE -->
       <div id="validadeContainer" class="space-y-2"></div>
 
-      <!-- RESUMO -->
       <div class="bg-cyan-50 rounded-xl p-4 text-sm space-y-1">
         <div class="flex justify-between"><span>Subtotal</span><span>R$ <span id="subtotal">0,00</span></span></div>
         <div class="flex justify-between"><span>Taxa</span><span>R$ <span id="taxa">0,00</span></span></div>
@@ -91,7 +87,6 @@
         </div>
       </div>
 
-      <!-- PAGAMENTO -->
       <select id="pagamento" required class="w-full px-4 py-3 rounded-xl border-2">
         <option value="">Forma de pagamento</option>
         <option value="PIX">Pix</option>
@@ -130,6 +125,8 @@
 
 <script>
 /* CONFIGURAÇÕES */
+const TAXA_CARTAO = 0.05;
+
 const marcas = {
   Itagy: { nome: "Itagy", completo: 28, troca: 8 },
   davida: { nome: "Fonte D'vida", completo: 32, troca: 10 },
@@ -195,11 +192,16 @@ function calcular(){
     (qtdCompleto.value * marca.completo) +
     (qtdTroca.value * marca.troca);
 
-  const taxa = taxas[bairro.value] || 0;
+  let taxaEntrega = taxas[bairro.value] || 0;
+  let total = subtotal + taxaEntrega;
+
+  if(pagamento.value === 'CARTAO'){
+    total += total * TAXA_CARTAO;
+  }
 
   subtotalEl.innerText = subtotal.toFixed(2).replace('.', ',');
-  taxaEl.innerText = taxa.toFixed(2).replace('.', ',');
-  totalEl.innerText = (subtotal + taxa).toFixed(2).replace('.', ',');
+  taxaEl.innerText = taxaEntrega.toFixed(2).replace('.', ',');
+  totalEl.innerText = total.toFixed(2).replace('.', ',');
 }
 
 marcaSelect.addEventListener('change', () => {
@@ -228,6 +230,8 @@ pagamento.addEventListener('change', () => {
   if(pagamento.value === 'PIX') pixBox.classList.remove('hidden');
   if(pagamento.value === 'DINHEIRO') dinheiroBox.classList.remove('hidden');
   if(pagamento.value === 'CARTAO') cartaoBox.classList.remove('hidden');
+
+  calcular();
 });
 
 precisaTroco.addEventListener('change', () => {
@@ -237,6 +241,14 @@ precisaTroco.addEventListener('change', () => {
 /* ENVIO WHATSAPP */
 document.getElementById('order-form').addEventListener('submit', e => {
   e.preventDefault();
+
+  const totalGarrafoes =
+    Number(qtdCompleto.value) + Number(qtdTroca.value);
+
+  if (totalGarrafoes < 4) {
+    alert('O pedido mínimo é de 4 garrafões.');
+    return;
+  }
 
   if(pagamento.value === 'CARTAO' && !tipoCartao.value){
     alert('Selecione Débito ou Crédito');
