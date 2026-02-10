@@ -81,7 +81,13 @@
 
       <div class="bg-cyan-50 rounded-xl p-4 text-sm space-y-1">
         <div class="flex justify-between"><span>Subtotal</span><span>R$ <span id="subtotal">0,00</span></span></div>
-        <div class="flex justify-between"><span>Taxa</span><span>R$ <span id="taxa">0,00</span></span></div>
+        <div class="flex justify-between">
+          <span>Taxa</span>
+          <span class="font-bold text-red-600">R$ <span id="taxa">0,00</span></span>
+        </div>
+        <p id="taxaExtraMsg" class="hidden text-xs text-red-600 font-semibold">
+          ⚠️ Pedido com 3 garrafões: taxa adicional de R$ 1,00
+        </p>
         <div class="flex justify-between font-extrabold text-cyan-700 text-lg">
           <span>Total</span><span>R$ <span id="total">0,00</span></span>
         </div>
@@ -124,7 +130,6 @@
 </div>
 
 <script>
-/* CONFIGURAÇÕES */
 const TAXA_CARTAO = 0.05;
 
 const marcas = {
@@ -146,24 +151,27 @@ const taxas = {
 const anoAtual = new Date().getFullYear();
 const anoMaximo = anoAtual + 3;
 
-/* ELEMENTOS */
-const nome = document.getElementById('nome');
-const telefone = document.getElementById('telefone');
-const bairro = document.getElementById('bairro');
-const complemento = document.getElementById('complemento');
-const marcaSelect = document.getElementById('marca');
-const precosMarca = document.getElementById('precosMarca');
-
 const qtdCompleto = document.getElementById('qtdCompleto');
 const qtdTroca = document.getElementById('qtdTroca');
 const validadeContainer = document.getElementById('validadeContainer');
-
 const subtotalEl = document.getElementById('subtotal');
 const taxaEl = document.getElementById('taxa');
 const totalEl = document.getElementById('total');
+const taxaExtraMsg = document.getElementById('taxaExtraMsg');
+const marcaSelect = document.getElementById('marca');
+const bairro = document.getElementById('bairro');
+const pagamento = document.getElementById('pagamento');
+const pixBox = document.getElementById('pixBox');
+const dinheiroBox = document.getElementById('dinheiroBox');
+const cartaoBox = document.getElementById('cartaoBox');
+const precisaTroco = document.getElementById('precisaTroco');
+const trocoPara = document.getElementById('trocoPara');
+const tipoCartao = document.getElementById('tipoCartao');
 
-/* PRODUTOS */
 function alterar(tipo, v){
+  const totalAtual = Number(qtdCompleto.value) + Number(qtdTroca.value);
+  if (v > 0 && totalAtual >= 3) return;
+
   const campo = tipo === 'completo' ? qtdCompleto : qtdTroca;
   campo.value = Math.max(0, Number(campo.value) + v);
   gerarCamposValidade();
@@ -193,6 +201,17 @@ function calcular(){
     (qtdTroca.value * marca.troca);
 
   let taxaEntrega = taxas[bairro.value] || 0;
+
+  const totalGarrafoes =
+    Number(qtdCompleto.value) + Number(qtdTroca.value);
+
+  if (totalGarrafoes === 3) {
+    taxaEntrega += 1;
+    taxaExtraMsg.classList.remove('hidden');
+  } else {
+    taxaExtraMsg.classList.add('hidden');
+  }
+
   let total = subtotal + taxaEntrega;
 
   if(pagamento.value === 'CARTAO'){
@@ -204,24 +223,8 @@ function calcular(){
   totalEl.innerText = total.toFixed(2).replace('.', ',');
 }
 
-marcaSelect.addEventListener('change', () => {
-  const m = marcas[marcaSelect.value];
-  precosMarca.innerText =
-    `Completo: R$ ${m.completo},00 | Troca: R$ ${m.troca},00`;
-  calcular();
-});
-
+marcaSelect.addEventListener('change', calcular);
 bairro.addEventListener('change', calcular);
-
-/* PAGAMENTO */
-const pagamento = document.getElementById('pagamento');
-const pixBox = document.getElementById('pixBox');
-const dinheiroBox = document.getElementById('dinheiroBox');
-const cartaoBox = document.getElementById('cartaoBox');
-const precisaTroco = document.getElementById('precisaTroco');
-const trocoPara = document.getElementById('trocoPara');
-const tipoCartao = document.getElementById('tipoCartao');
-
 pagamento.addEventListener('change', () => {
   pixBox.classList.add('hidden');
   dinheiroBox.classList.add('hidden');
@@ -237,18 +240,9 @@ pagamento.addEventListener('change', () => {
 precisaTroco.addEventListener('change', () => {
   trocoPara.classList.toggle('hidden', !precisaTroco.checked);
 });
-
 /* ENVIO WHATSAPP */
 document.getElementById('order-form').addEventListener('submit', e => {
   e.preventDefault();
-
-  const totalGarrafoes =
-    Number(qtdCompleto.value) + Number(qtdTroca.value);
-
-  if (totalGarrafoes < 4) {
-    alert('O pedido mínimo é de 4 garrafões.');
-    return;
-  }
 
   if(pagamento.value === 'CARTAO' && !tipoCartao.value){
     alert('Selecione Débito ou Crédito');
@@ -265,28 +259,32 @@ document.getElementById('order-form').addEventListener('submit', e => {
     anosTxt += `\n• Garrafão ${i+1}: ${c.value}`;
   });
 
-  const marca = marcas[marcaSelect.value].nome;
+  const marcaNome = marcas[marcaSelect.value].nome;
 
   const msg = `
-🧾 NOVO PEDIDO
-👤 ${nome.value}
-📞 ${telefone.value}
+NOVO PEDIDO
+ ${nome.value}
+ ${telefone.value}
 
-📍 ${bairro.value}
+ ${bairro.value}
 ${complemento.value}
 
-🏷️ Marca: ${marca}
+Marca: ${marcaNome}
 
-💧 Produtos:
+ Produtos:
 • Completo: ${qtdCompleto.value}
 • Troca: ${qtdTroca.value}
 ${anosTxt}
 
-💰 Total: R$ ${totalEl.innerText}
+Total: R$ ${totalEl.innerText}
 `;
 
-  window.open(`https://wa.me/5571991167085?text=${encodeURIComponent(msg)}`);
+  window.open(
+    `https://wa.me/5571991167085?text=${encodeURIComponent(msg)}`,
+    '_blank'
+  );
 });
+
 </script>
 
 </body>
