@@ -139,6 +139,41 @@ button[type="button"]:hover {
 <option>Jardim Brasilia</option><option>Burisatuba</option>
 <option>Dois de julho</option>
 </select>
+  <label class="font-semibold">Tipo de imóvel</label>
+
+<select id="tipoImovel" class="w-full px-4 py-3 rounded-xl border-2">
+    <option value="Casa">Casa</option>
+    <option value="Apartamento">Apartamento</option>
+    <option value="Condomínio de Casas">Condomínio de Casas</option>
+    <option value="Condomínio de Prédios">Condomínio de Prédios</option>
+</select>
+
+<input id="condominio"
+placeholder="Nome do condomínio"
+class="w-full px-4 py-3 rounded-xl border-2 hidden">
+
+<input id="bloco"
+placeholder="Bloco/Torre"
+class="w-full px-4 py-3 rounded-xl border-2 hidden">
+
+<input id="apartamento"
+placeholder="Apartamento"
+class="w-full px-4 py-3 rounded-xl border-2 hidden">
+  <label>Qual andar?</label>
+
+<select id="andar">
+<option value="0">Térreo</option>
+    <option value="1">1º</option>
+    <option value="2">2º</option>
+    <option value="3">3º</option>
+    <option value="4">4º</option>
+  <option value="5">5º ou mais</option>
+</select>
+
+<label>
+<input type="checkbox" id="elevador">
+Possui elevador
+</label>
 
 <input id="complemento" required placeholder="Rua / Nº / Referência"
 class="w-full px-4 py-3 rounded-xl border-2">
@@ -244,6 +279,13 @@ const taxas = {
   "Parque Satélite":4,"Camaçari de dentro":2,"Jardim Brasilia":2,
   "Burisatuba":2,"Dois de julho":2
 };
+  const tipoImovel = document.getElementById("tipoImovel");
+const condominio = document.getElementById("condominio");
+const bloco = document.getElementById("bloco");
+const apartamento = document.getElementById("apartamento");
+const andar = document.getElementById("andar");
+const elevador = document.getElementById("elevador");
+
 
 const anoAtual = new Date().getFullYear();
 const anoMaximo = anoAtual + 3;
@@ -264,6 +306,71 @@ const cartaoBox = document.getElementById('cartaoBox');
 const precisaTroco = document.getElementById('precisaTroco');
 const trocoPara = document.getElementById('trocoPara');
 const tipoCartao = document.getElementById('tipoCartao');
+  
+ function atualizarCamposImovel(){
+
+    const ehApartamento =
+        tipoImovel.value === "Apartamento" ||
+        tipoImovel.value === "Condomínio de Prédios";
+
+    condominio.classList.toggle("hidden", !ehApartamento);
+    bloco.classList.toggle("hidden", !ehApartamento);
+    apartamento.classList.toggle("hidden", !ehApartamento);
+    andar.classList.toggle("hidden", !ehApartamento);
+
+    elevador.parentElement.classList.toggle("hidden", !ehApartamento);
+
+}
+    function calcularTaxaCondominio(){
+
+    if(
+        tipoImovel.value !== "Apartamento" &&
+        tipoImovel.value !== "Condomínio de Prédios"
+    ){
+        return 0;
+    }
+
+    let taxa = 0;
+
+    if(elevador.checked){
+
+        taxa = 2;
+
+    }else{
+
+        switch(Number(andar.value)){
+
+            case 0:
+                taxa = 0;
+                break;
+
+            case 1:
+                taxa = 2;
+                break;
+
+            case 2:
+                taxa = 4;
+                break;
+
+            case 3:
+                taxa = 6;
+                break;
+
+            default:
+                taxa = Number(andar.value) * 2;
+
+        }
+
+    }
+
+    return taxa;
+
+}
+
+  
+tipoImovel.addEventListener("change", atualizarCamposImovel);
+
+atualizarCamposImovel();
 
 function alterar(tipo, v){
   const totalAtual = Number(qtdCompleto.value) + Number(qtdTroca.value);
@@ -296,9 +403,11 @@ function calcular(){
   const subtotal =
     (qtdCompleto.value * marca.completo) +
     (qtdTroca.value * marca.troca);
+  
+let taxaEntrega = taxas[bairro.value] || 0;
 
-  let taxaEntrega = taxas[bairro.value] || 0;
-
+taxaEntrega += calcularTaxaCondominio();
+  
   const totalGarrafoes =
     Number(qtdCompleto.value) + Number(qtdTroca.value);
 
@@ -327,12 +436,18 @@ pagamento.addEventListener('change', () => {
   dinheiroBox.classList.add('hidden');
   cartaoBox.classList.add('hidden');
 
+
   if(pagamento.value === 'PIX') pixBox.classList.remove('hidden');
   if(pagamento.value === 'DINHEIRO') dinheiroBox.classList.remove('hidden');
   if(pagamento.value === 'CARTAO') cartaoBox.classList.remove('hidden');
 
   calcular();
 });
+    andar.addEventListener("change", calcular);
+
+elevador.addEventListener("change", calcular);
+
+tipoImovel.addEventListener("change", calcular);
 
 precisaTroco.addEventListener('change', () => {
   trocoPara.classList.toggle('hidden', !precisaTroco.checked);
@@ -373,8 +488,22 @@ NOVO PEDIDO
 ${nome.value}
 ${telefone.value}
 
-${bairro.value}
-${complemento.value}
+Bairro: ${bairro.value}
+
+Tipo de imóvel: ${tipoImovel.value}
+
+Endereço: ${complemento.value}
+Condomínio: ${condominio.value || "Não informado"}
+
+Bloco: ${bloco.value || "-"}
+
+Apartamento: ${apartamento.value || "-"}
+
+Andar: ${andar.value || "-"}
+
+Elevador: ${elevador.checked ? "Sim" : "Não"}
+
+Endereço: ${complemento.value}
 
 Marca: ${marcaNome}
 
