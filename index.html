@@ -237,7 +237,54 @@ function showToast(msg) {
   setTimeout(() => t.classList.add('hidden'), 3000);
 }
 
-document.getElementById('order-form').addEventListener('submit', e => {
+// Load last order data to prefill form
+function carregarUltimoPedido() {
+  const ultimoPedido = localStorage.getItem('ultimoPedido');
+  if (ultimoPedido) {
+    try {
+      const pedido = JSON.parse(ultimoPedido);
+      document.getElementById('nome').value = pedido.nome || '';
+      document.getElementById('telefone').value = pedido.telefone || '';
+      document.getElementById('bairro').value = pedido.bairro || '';
+      document.getElementById('complemento').value = pedido.endereco || '';
+      document.getElementById('marca').value = pedido.marca || '';
+      
+      if (pedido.condominio) {
+        document.getElementById('isCondominio').checked = true;
+        condoFields.classList.remove('hidden');
+        const partes = pedido.condominio.split(',');
+        partes.forEach(p => {
+          if (p.includes('Bloco:')) {
+            document.getElementById('bloco').value = p.split(':')[1]?.trim() || '';
+          }
+          if (p.includes('Apto:')) {
+            document.getElementById('apartamento').value = p.split(':')[1]?.trim() || '';
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Erro ao carregar pedido anterior');
+    }
+  }
+}
+
+// Initialize Data SDK
+(async () => {
+  const dataHandler = {
+    onDataChanged(data) {
+      // Data loaded; ready for submissions
+    }
+  };
+
+  const initResult = await window.dataSdk.init(dataHandler);
+  if (!initResult.isOk) {
+    console.error('Failed to initialize Data SDK');
+  }
+})();
+
+carregarUltimoPedido();
+
+document.getElementById('order-form').addEventListener('submit', async e => {
   e.preventDefault();
 
   if (pagamento.value === 'CARTAO' && !tipoCartao.value) { showToast('Selecione Débito ou Crédito'); return; }
@@ -265,8 +312,42 @@ document.getElementById('order-form').addEventListener('submit', e => {
 
   const msg = `*NOVO PEDIDO*\n${document.getElementById('nome').value}\n${document.getElementById('telefone').value}\n\n${bairro.value}\n${document.getElementById('complemento').value}${condoTxt}\n\nMarca: ${marcaNome}\n\nProdutos:\n• Completo: ${qtdCompleto.value}\n• Troca: ${qtdTroca.value}${anosTxt}\n\nPagamento: ${formaPagamento}\n\nTotal: R$ ${totalEl.innerText}`;
 
-  window.open(`https://wa.me/5571991167085?text=${encodeURIComponent(msg)}`, '_blank');
+  // Save to Canva Sheet
+  const orderData = {
+    nome: document.getElementById('nome').value,
+    telefone: document.getElementById('telefone').value,
+    bairro: bairro.value,
+    endereco: document.getElementById('complemento').value,
+    condominio: isCondominio.checked ? `Bloco: ${document.getElementById('bloco').value}, Apto: ${document.getElementById('apartamento').value}` : '',
+    marca: marcaNome,
+    qtd_completo: Number(qtdCompleto.value),
+    qtd_troca: Number(qtdTroca.value),
+    pagamento: formaPagamento,
+    total: totalEl.innerText,
+    data_pedido: new Date().toISOString()
+  };
+
+  const saveResult = await window.dataSdk.create(orderData);
+  if (saveResult.isOk) {
+    // Save to local storage for prefill on next visit
+    localStorage.setItem('ultimoPedido', JSON.stringify({
+      nome: orderData.nome,
+      telefone: orderData.telefone,
+      bairro: orderData.bairro,
+      endereco: orderData.endereco,
+      condominio: orderData.condominio,
+      marca: orderData.marca
+    }));
+    
+    showToast('✓ Pedido salvo! Enviando WhatsApp...');
+    window.open(`https://wa.me/5571991167085?text=${encodeURIComponent(msg)}`, '_blank');
+    document.getElementById('order-form').reset();
+    gerarCamposValidade();
+    calcular();
+  } else {
+    showToast('Erro ao salvar pedido. Tente novamente.');
+  }
 });
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a159040ef56bacbf',t:'MTc4MzExNDQ4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a15922e58793ad4a',t:'MTc4MzExNTc0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
