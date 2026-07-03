@@ -1,314 +1,272 @@
 <!doctype html>
-
 <html lang="pt-BR" class="h-full">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Água Mineral Camaçari</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260703-05-6766c4c"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Água Mineral Camaçari</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
 * { font-family: 'Nunito', sans-serif; }
-
-/* FUNDO */
-.wave-bg {
-  background: linear-gradient(135deg, #0077b6, #00b4d8, #90e0ef);
-}
-
-/* CARD */
-.glass-card {
-  background: rgba(255,255,255,.95);
-  backdrop-filter: blur(12px);
-}
-
-/* BOTÃO */
-.btn-primary {
-  background: linear-gradient(135deg, #0077b6, #00b4d8);
-  transition: 0.3s;
-}
-.btn-primary:hover {
-  transform: scale(1.03);
-  opacity: .9;
-}
-
-/* INPUTS BONITOS */
-input, select {
-  border: 2px solid #e5e7eb;
-  transition: 0.2s;
-}
-input:focus, select:focus {
-  border-color: #00b4d8;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0,180,216,.2);
-}
-
-/* BOTÕES + - */
-button[type="button"] {
-  background: #00b4d8;
-  color: white;
-  width: 35px;
-  height: 35px;
-  border-radius: 10px;
-  font-weight: bold;
-}
-button[type="button"]:hover {
-  background: #0077b6;
-}
+.wave-bg { background: linear-gradient(135deg, #0077b6, #00b4d8, #90e0ef); }
+.glass-card { background: rgba(255,255,255,.95); backdrop-filter: blur(12px); }
+.btn-primary { background: linear-gradient(135deg, #0077b6, #00b4d8); transition: 0.3s; }
+.btn-primary:hover { transform: scale(1.03); opacity: .9; }
+input, select { border: 2px solid #e5e7eb; transition: 0.2s; }
+input:focus, select:focus { border-color: #00b4d8; outline: none; box-shadow: 0 0 0 2px rgba(0,180,216,.2); }
+.qty-btn { background: #00b4d8; color: white; width: 35px; height: 35px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; }
+.qty-btn:hover { background: #0077b6; }
 </style>
-
-</head>
-
-<body class="h-full bg-gray-100">
-
-<!-- HEADER -->
-
-<header class="bg-white shadow-md">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-    <h1 class="text-xl font-extrabold text-cyan-700">💧 Água Camaçari</h1>
-    <a href="#pedido" class="btn-primary text-white px-4 py-2 rounded-lg font-bold">
-      Pedir Agora
-    </a>
-  </div>
-</header>
-
-<!-- HERO -->
-
-<section class="wave-bg text-white py-16 text-center">
-  <h2 class="text-4xl font-extrabold mb-4">
-    Água de Qualidade no seu Lar
-  </h2>
-  <p class="mb-6 text-white/90">Entrega rápida 🚚💨</p>
-
-  <a href="#pedido" class="bg-white text-cyan-700 px-6 py-3 rounded-xl font-bold">
-    Fazer Pedido
-  </a>
-</section>
-
-<!-- BENEFÍCIOS -->
-
-<section class="py-10">
-  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-4 gap-6 text-center">
-
-<div class="bg-white p-6 rounded-xl shadow">
-  🚚<p class="font-bold mt-2">Entrega Rápida</p>
-</div>
-
-<div class="bg-white p-6 rounded-xl shadow">
-  💧<p class="font-bold mt-2">Água Pura</p>
-</div>
-
-<div class="bg-white p-6 rounded-xl shadow">
-  💰<p class="font-bold mt-2">Preço Justo</p>
-</div>
-
-<div class="bg-white p-6 rounded-xl shadow">
-  📲<p class="font-bold mt-2">Pedido Fácil</p>
-</div>
-
-  </div>
-</section>
-
-<!-- FORMULÁRIO ORIGINAL -->
-
-<section id="pedido" class="wave-bg py-12 px-4">
-<div class="max-w-md mx-auto">
-
-<div class="text-center mb-6">
-<h1 class="text-3xl font-extrabold text-white">Faça seu Pedido</h1>
-<p class="text-white/90">Preencha e finalize pelo WhatsApp</p>
-</div>
-
-<div class="glass-card rounded-3xl shadow-2xl p-6">
-
-<!-- 🔴 SEU FORM ORIGINAL (NÃO ALTERADO) -->
-
-<form id="order-form" class="space-y-5">
-
-<input id="nome" required placeholder="Nome completo" class="w-full px-4 py-3 rounded-xl border-2">
-<input id="telefone" required placeholder="Telefone / WhatsApp" class="w-full px-4 py-3 rounded-xl border-2">
-
-<select id="bairro" required class="w-full px-4 py-3 rounded-xl border-2">
-<option value="">Selecione o bairro</option>
-<option>Parque Verde I</option><option>Parque Verde II</option>
-<option>Gleba E</option><option>Gleba C</option>
-<option>Gleba B</option><option>Gleba A</option>
-<option>Verde Horizonte</option><option>Ponto Certo</option>
-<option>Piaçaveira</option><option>Inocoop</option>
-<option>Novo Horizonte</option><option>Nova Vitória</option>
-<option>Alto da Cruz</option><option>Triângulo</option>
-<option>Phoc I</option><option>Phoc II</option><option>Phoc III</option>
-<option>Lama Preta</option><option>Gravatá</option>
-<option>Centro</option><option>Mangueiral</option>
-<option>Parque Satélite</option><option>Camaçari de dentro</option>
-<option>Jardim Brasilia</option><option>Burisatuba</option>
-<option>Dois de julho</option>
-</select>
-
-<input id="complemento" required placeholder="Rua / Nº / Referência"
-class="w-full px-4 py-3 rounded-xl border-2">
-
-<select id="marca" required class="w-full px-4 py-3 rounded-xl border-2">
-<option value="">Selecione a marca</option>
-<option value="Itagy">Itagy</option>
-<option value="davida">Fonte D'vida</option>
-<option value="Imbassaí">Imbassaí</option>
-</select>
-
-<p id="precosMarca" class="text-sm text-gray-600"></p>
-
-<div>
-<p class="font-semibold mb-2">Garrafão Completo</p>
-<div class="flex items-center gap-4">
-<button type="button" onclick="alterar('completo',-1)">−</button>
-<input id="qtdCompleto" value="0" readonly class="w-16 text-center border-2 rounded">
-<button type="button" onclick="alterar('completo',1)">+</button>
-</div>
-</div>
-
-<div>
-<p class="font-semibold mb-2">Garrafão Troca</p>
-<div class="flex items-center gap-4">
-<button type="button" onclick="alterar('troca',-1)">−</button>
-<input id="qtdTroca" value="0" readonly class="w-16 text-center border-2 rounded">
-<button type="button" onclick="alterar('troca',1)">+</button>
-</div>
-</div>
-
-<div id="validadeContainer" class="space-y-2"></div>
-
-<div class="bg-cyan-50 rounded-xl p-4 text-sm space-y-1">
-<div class="flex justify-between"><span>Subtotal</span><span>R$ <span id="subtotal">0,00</span></span></div>
-<div class="flex justify-between">
-<span>Taxa</span>
-<span class="font-bold text-red-600">R$ <span id="taxa">0,00</span></span>
-</div>
-<p id="taxaExtraMsg" class="hidden text-xs text-red-600 font-semibold">
-⚠️ Pedido com 3 garrafões: taxa adicional de R$ 1,00
-</p>
-<div class="flex justify-between font-extrabold text-cyan-700 text-lg">
-<span>Total</span><span>R$ <span id="total">0,00</span></span>
-</div>
-</div>
-
-<select id="pagamento" required class="w-full px-4 py-3 rounded-xl border-2">
-<option value="">Forma de pagamento</option>
-<option value="PIX">Pix</option>
-<option value="DINHEIRO">Dinheiro</option>
-<option value="CARTAO">Cartão</option>
-</select>
-
-<div id="pixBox" class="hidden bg-green-50 p-3 rounded-xl text-sm">
-<strong>Chave Pix:</strong>
-<p class="font-bold select-all">71991167085</p>
-</div>
-
-<div id="dinheiroBox" class="hidden space-y-2">
-<label class="flex gap-2 text-sm">
-<input type="checkbox" id="precisaTroco"> Precisa de troco?
-</label>
-<input id="trocoPara" type="number" placeholder="Troco para quanto?"
-class="w-full px-4 py-3 rounded-xl border-2 hidden">
-</div>
-
-<div id="cartaoBox" class="hidden">
-<select id="tipoCartao" class="w-full px-4 py-3 rounded-xl border-2">
-<option value="">Débito ou Crédito</option>
-<option>Débito</option>
-<option>Crédito</option>
-</select>
-</div>
-
-<button class="btn-primary w-full py-4 rounded-xl text-white font-bold">
-Confirmar Pedido
-</button>
-
-</form>
-</div>
-</div>
-</section>
-
-<!-- 🔴 SEU SCRIPT ORIGINAL (100% intacto) -->
-
-<script>
-/* COLE AQUI SEU SCRIPT ORIGINAL SEM MUDAR NADA */
-</script><script>
-
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/0179d719c431a79e.data_sdk.js" type="text/javascript" integrity="sha512-OsRvJkI5GkC3MJQcgotQYotpzrMSX415GiKKgvYdxQEEkzD/fdchShO2FMSy0PJr/tiINMXOk5Vl2zAgg6bUiA=="></script>
+  <script src="/_sdk/0b3af1c300e720aa.resizing_sdk.js" type="text/javascript" integrity="sha512-nX1P6oXZmEY5wCI2lUVg3BwKu1cr0yi+ZpXgZ0Yn90vkSwvpmyzBMvOyD6VLJUtBwFI2dSrw1b6OvORxSggw3w=="></script>
+ </head>
+ <body data-template-id="__page-root" class="h-full w-full">
+  <header class="bg-white shadow-md">
+   <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <h1 data-template-id="brand-title" class="canva-text text-xl font-extrabold text-cyan-700"></h1><a href="#pedido" data-template-id="header-cta" class="canva-button btn-primary text-white px-4 py-2 rounded-lg font-bold inline-block"></a>
+   </div>
+  </header>
+  <section class="wave-bg text-white py-16 text-center">
+   <h2 data-template-id="hero-title" class="canva-text text-4xl font-extrabold mb-4"></h2>
+   <p data-template-id="hero-subtitle" class="canva-text mb-6 text-white/90"></p><a href="#pedido" data-template-id="hero-cta" class="canva-button bg-white text-cyan-700 px-6 py-3 rounded-xl font-bold inline-block"></a>
+  </section>
+  <section class="py-10">
+   <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-4 gap-6 text-center">
+    <div class="bg-white p-6 rounded-xl shadow">
+     <span class="text-2xl">🚚</span>
+     <p data-template-id="benefit-1" class="canva-text font-bold mt-2"></p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+     <span class="text-2xl">💧</span>
+     <p data-template-id="benefit-2" class="canva-text font-bold mt-2"></p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+     <span class="text-2xl">💰</span>
+     <p data-template-id="benefit-3" class="canva-text font-bold mt-2"></p>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow">
+     <span class="text-2xl">📲</span>
+     <p data-template-id="benefit-4" class="canva-text font-bold mt-2"></p>
+    </div>
+   </div>
+  </section>
+  <section id="pedido" class="wave-bg py-12 px-4">
+   <div class="max-w-md mx-auto">
+    <div class="text-center mb-6">
+     <h2 data-template-id="form-title" class="canva-text text-3xl font-extrabold text-white"></h2>
+     <p data-template-id="form-subtitle" class="canva-text text-white/90"></p>
+    </div>
+    <div class="glass-card rounded-3xl shadow-2xl p-6">
+     <form id="order-form" class="space-y-5"><label for="nome" class="sr-only">Nome completo</label> <input id="nome" required placeholder="Nome completo" class="w-full px-4 py-3 rounded-xl"> <label for="telefone" class="sr-only">Telefone</label> <input id="telefone" required placeholder="Telefone / WhatsApp" class="w-full px-4 py-3 rounded-xl"> <label for="bairro" class="sr-only">Bairro</label> <select id="bairro" required class="w-full px-4 py-3 rounded-xl"> <option value="">Selecione o bairro</option> <option>Parque Verde I</option><option>Parque Verde II</option> <option>Gleba E</option><option>Gleba C</option> <option>Gleba B</option><option>Gleba A</option> <option>Verde Horizonte</option><option>Ponto Certo</option> <option>Piaçaveira</option><option>Inocoop</option> <option>Novo Horizonte</option><option>Nova Vitória</option> <option>Alto da Cruz</option><option>Triângulo</option> <option>Phoc I</option><option>Phoc II</option><option>Phoc III</option> <option>Lama Preta</option><option>Gravatá</option> <option>Centro</option><option>Mangueiral</option> <option>Parque Satélite</option><option>Camaçari de dentro</option> <option>Jardim Brasilia</option><option>Burisatuba</option> <option>Dois de julho</option> </select> <label for="complemento" class="sr-only">Endereço</label> <input id="complemento" required placeholder="Rua / Nº / Referência" class="w-full px-4 py-3 rounded-xl"> <!-- Condomínio / Apartamento -->
+      <div class="bg-blue-50 rounded-xl p-4 space-y-3"><label class="flex items-center gap-2 font-semibold text-cyan-800 cursor-pointer"> <input type="checkbox" id="isCondominio" class="w-4 h-4 rounded border-none"> <span data-template-id="condo-label" class="canva-text"></span> </label>
+       <div id="condoFields" class="hidden space-y-3"><label for="bloco" class="sr-only">Bloco/Torre</label> <input id="bloco" placeholder="Bloco / Torre" class="w-full px-4 py-3 rounded-xl"> <label for="apartamento" class="sr-only">Apartamento</label> <input id="apartamento" placeholder="Nº do Apartamento" class="w-full px-4 py-3 rounded-xl"> <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"> <input type="checkbox" id="temEscada" class="w-4 h-4 rounded border-none"> <span data-template-id="stair-label" class="canva-text"></span> </label>
+        <div id="escadaFields" class="hidden"><label for="andares" class="sr-only">Andares</label> <input id="andares" type="number" min="1" max="20" placeholder="Quantos andares subir?" class="w-full px-4 py-3 rounded-xl">
+         <p data-template-id="stair-info" class="canva-text text-xs text-gray-500 mt-1"></p>
+        </div>
+       </div>
+      </div><label for="marca" class="sr-only">Marca</label> <select id="marca" required class="w-full px-4 py-3 rounded-xl"> <option value="">Selecione a marca</option> <option value="Itagy">Itagy</option> <option value="davida">Fonte D'vida</option> <option value="Imbassaí">Imbassaí</option> </select>
+      <div>
+       <p class="font-semibold mb-2">Garrafão Completo</p>
+       <div class="flex items-center gap-4"><button type="button" class="qty-btn" onclick="alterar('completo',-1)">−</button> <input id="qtdCompleto" value="0" readonly class="w-16 text-center rounded"> <button type="button" class="qty-btn" onclick="alterar('completo',1)">+</button>
+       </div>
+      </div>
+      <div>
+       <p class="font-semibold mb-2">Garrafão Troca</p>
+       <div class="flex items-center gap-4"><button type="button" class="qty-btn" onclick="alterar('troca',-1)">−</button> <input id="qtdTroca" value="0" readonly class="w-16 text-center rounded"> <button type="button" class="qty-btn" onclick="alterar('troca',1)">+</button>
+       </div>
+      </div>
+      <div id="validadeContainer" class="space-y-2"></div>
+      <div class="bg-cyan-50 rounded-xl p-4 text-sm space-y-1">
+       <div class="flex justify-between">
+        <span>Subtotal</span><span>R$ <span id="subtotal">0,00</span></span>
+       </div>
+       <div class="flex justify-between">
+        <span>Taxa entrega</span><span class="font-bold text-red-600">R$ <span id="taxa">0,00</span></span>
+       </div>
+       <p id="taxaExtraMsg" class="hidden text-xs text-red-600 font-semibold">⚠️ Pedido com 3 garrafões: taxa adicional de R$ 1,00</p>
+       <div id="escadaTaxaRow" class="hidden flex justify-between">
+        <span>Taxa escada</span><span class="font-bold text-orange-600">R$ <span id="taxaEscada">0,00</span></span>
+       </div>
+       <div class="flex justify-between font-extrabold text-cyan-700 text-lg">
+        <span>Total</span><span>R$ <span id="total">0,00</span></span>
+       </div>
+      </div><label for="pagamento" class="sr-only">Pagamento</label> <select id="pagamento" required class="w-full px-4 py-3 rounded-xl"> <option value="">Forma de pagamento</option> <option value="PIX">Pix</option> <option value="DINHEIRO">Dinheiro</option> <option value="CARTAO">Cartão</option> </select>
+      <div id="pixBox" class="hidden bg-green-50 p-3 rounded-xl text-sm"><strong>Chave Pix:</strong>
+       <p class="font-bold select-all">71991167085</p>
+      </div>
+      <div id="dinheiroBox" class="hidden space-y-2"><label class="flex gap-2 text-sm"><input type="checkbox" id="precisaTroco"> Precisa de troco?</label> <input id="trocoPara" type="number" placeholder="Troco para quanto?" class="w-full px-4 py-3 rounded-xl hidden">
+      </div>
+      <div id="cartaoBox" class="hidden"><select id="tipoCartao" class="w-full px-4 py-3 rounded-xl"> <option value="">Débito ou Crédito</option> <option>Débito</option> <option>Crédito</option> </select>
+      </div><button data-template-id="submit-btn" class="canva-button btn-primary w-full py-4 rounded-xl text-white font-bold"></button>
+     </form>
+    </div>
+   </div>
+  </section><!-- Inline validation toast -->
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hidden z-50"></div>
+  <script src="/_sdk/e063511df281944a.editing_sdk.js" integrity="sha512-Xa8p4aPfoMxVnzxQE2WAG0FfoaPLxdjOJMfUZGm1yZosJTYmnNDvgLkJ2EoN0i3zxjeQVAzUMSXNvTKQVqbXyQ=="></script>
+  <script>
 const TAXA_CARTAO = 0.05;
+const TAXA_ESCADA_POR_ANDAR = 1; // R$1 per floor
 
-const marcas = {Itagy: { nome: "Itagy", completo: 28, troca: 9 },davida: { nome: "Fonte D'vida", completo: 32, troca: 10 },Imbassaí: { nome: "Imbassaí", completo: 32, troca: 10 }};
+const marcas = {
+  Itagy: { nome: "Itagy", completo: 32, troca: 10 },
+  davida: { nome: "Fonte D'vida", completo: 32, troca: 10 },
+  Imbassaí: { nome: "Imbassaí", completo: 32, troca: 10 }
+};
 
 const taxas = {"Parque Verde I":2,"Parque Verde II":2,"Gleba E":2,"Gleba C":2,"Gleba B":4,"Gleba A":4,"Verde Horizonte":2,"Ponto Certo":2,"Piaçaveira":2,"Inocoop":2,"Novo Horizonte":4,"Nova Vitória":4,"Alto da Cruz":2,"Triângulo":2,"Phoc I":2,"Phoc II":2,"Phoc III":2,"Lama Preta":2,"Gravatá":4,"Centro":2,"Mangueiral":4,"Parque Satélite":4,"Camaçari de dentro":2,"Jardim Brasilia":2,"Burisatuba":2,"Dois de julho":2};
 
-const anoAtual = new Date().getFullYear();const anoMaximo = anoAtual + 3;
+const anoAtual = new Date().getFullYear();
+const anoMaximo = anoAtual + 3;
 
-const qtdCompleto = document.getElementById('qtdCompleto');const qtdTroca = document.getElementById('qtdTroca');const validadeContainer = document.getElementById('validadeContainer');const subtotalEl = document.getElementById('subtotal');const taxaEl = document.getElementById('taxa');const totalEl = document.getElementById('total');const taxaExtraMsg = document.getElementById('taxaExtraMsg');const marcaSelect = document.getElementById('marca');const bairro = document.getElementById('bairro');const pagamento = document.getElementById('pagamento');const pixBox = document.getElementById('pixBox');const dinheiroBox = document.getElementById('dinheiroBox');const cartaoBox = document.getElementById('cartaoBox');const precisaTroco = document.getElementById('precisaTroco');const trocoPara = document.getElementById('trocoPara');const tipoCartao = document.getElementById('tipoCartao');
+const qtdCompleto = document.getElementById('qtdCompleto');
+const qtdTroca = document.getElementById('qtdTroca');
+const validadeContainer = document.getElementById('validadeContainer');
+const subtotalEl = document.getElementById('subtotal');
+const taxaEl = document.getElementById('taxa');
+const totalEl = document.getElementById('total');
+const taxaExtraMsg = document.getElementById('taxaExtraMsg');
+const marcaSelect = document.getElementById('marca');
+const bairro = document.getElementById('bairro');
+const pagamento = document.getElementById('pagamento');
+const pixBox = document.getElementById('pixBox');
+const dinheiroBox = document.getElementById('dinheiroBox');
+const cartaoBox = document.getElementById('cartaoBox');
+const precisaTroco = document.getElementById('precisaTroco');
+const trocoPara = document.getElementById('trocoPara');
+const tipoCartao = document.getElementById('tipoCartao');
+const isCondominio = document.getElementById('isCondominio');
+const condoFields = document.getElementById('condoFields');
+const temEscada = document.getElementById('temEscada');
+const escadaFields = document.getElementById('escadaFields');
+const andaresInput = document.getElementById('andares');
+const escadaTaxaRow = document.getElementById('escadaTaxaRow');
+const taxaEscadaEl = document.getElementById('taxaEscada');
 
-function alterar(tipo, v){const totalAtual = Number(qtdCompleto.value) + Number(qtdTroca.value);if (v > 0 && totalAtual >= 3) return;
+// Condominium toggle
+isCondominio.addEventListener('change', () => {
+  condoFields.classList.toggle('hidden', !isCondominio.checked);
+  if (!isCondominio.checked) {
+    temEscada.checked = false;
+    escadaFields.classList.add('hidden');
+  }
+  calcular();
+});
 
-const campo = tipo === 'completo' ? qtdCompleto : qtdTroca;campo.value = Math.max(0, Number(campo.value) + v);gerarCamposValidade();calcular();}
+temEscada.addEventListener('change', () => {
+  escadaFields.classList.toggle('hidden', !temEscada.checked);
+  calcular();
+});
 
-function gerarCamposValidade(){validadeContainer.innerHTML = '';for(let i=1;i<=qtdTroca.value;i++){validadeContainer.innerHTML +=       <input required type="number" min="${anoAtual}" max="${anoMaximo}"
-      placeholder="Ano de validade do garrafão ${i}"
-      class="w-full px-4 py-3 rounded-xl border-2 validade">
-   ;}}
+andaresInput && andaresInput.addEventListener('input', calcular);
 
-function calcular(){if(!marcaSelect.value){subtotalEl.innerText = taxaEl.innerText = totalEl.innerText = '0,00';return;}
+function alterar(tipo, v) {
+  const totalAtual = Number(qtdCompleto.value) + Number(qtdTroca.value);
+  if (v > 0 && totalAtual >= 3) return;
+  const campo = tipo === 'completo' ? qtdCompleto : qtdTroca;
+  campo.value = Math.max(0, Number(campo.value) + v);
+  gerarCamposValidade();
+  calcular();
+}
 
-const marca = marcas[marcaSelect.value];const subtotal =(qtdCompleto.value * marca.completo) +(qtdTroca.value * marca.troca);
+function gerarCamposValidade() {
+  validadeContainer.innerHTML = '';
+  for (let i = 1; i <= qtdTroca.value; i++) {
+    validadeContainer.innerHTML += `<input required type="number" min="${anoAtual}" max="${anoMaximo}" placeholder="Ano de validade do garrafão ${i}" class="w-full px-4 py-3 rounded-xl validade">`;
+  }
+}
 
-let taxaEntrega = taxas[bairro.value] || 0;
+function calcular() {
+  if (!marcaSelect.value) {
+    subtotalEl.innerText = taxaEl.innerText = totalEl.innerText = '0,00';
+    taxaEscadaEl.innerText = '0,00';
+    escadaTaxaRow.classList.add('hidden');
+    return;
+  }
 
-const totalGarrafoes =Number(qtdCompleto.value) + Number(qtdTroca.value);
+  const marca = marcas[marcaSelect.value];
+  const subtotal = (qtdCompleto.value * marca.completo) + (qtdTroca.value * marca.troca);
 
-if (totalGarrafoes === 3) {taxaEntrega += 1;taxaExtraMsg.classList.remove('hidden');} else {taxaExtraMsg.classList.add('hidden');}
+  let taxaEntrega = taxas[bairro.value] || 0;
+  const totalGarrafoes = Number(qtdCompleto.value) + Number(qtdTroca.value);
 
-let total = subtotal + taxaEntrega;
+  if (totalGarrafoes === 3) { taxaEntrega += 1; taxaExtraMsg.classList.remove('hidden'); }
+  else { taxaExtraMsg.classList.add('hidden'); }
 
-if(pagamento.value === 'CARTAO'){total += total * TAXA_CARTAO;}
+  // Stair tax
+  let escadaTaxa = 0;
+  if (isCondominio.checked && temEscada.checked && andaresInput.value) {
+    escadaTaxa = Math.max(0, Number(andaresInput.value)) * TAXA_ESCADA_POR_ANDAR;
+  }
+  if (escadaTaxa > 0) {
+    escadaTaxaRow.classList.remove('hidden');
+    taxaEscadaEl.innerText = escadaTaxa.toFixed(2).replace('.', ',');
+  } else {
+    escadaTaxaRow.classList.add('hidden');
+  }
 
-subtotalEl.innerText = subtotal.toFixed(2).replace('.', ',');taxaEl.innerText = taxaEntrega.toFixed(2).replace('.', ',');totalEl.innerText = total.toFixed(2).replace('.', ',');}
+  let total = subtotal + taxaEntrega + escadaTaxa;
+  if (pagamento.value === 'CARTAO') { total += total * TAXA_CARTAO; }
 
-marcaSelect.addEventListener('change', calcular);bairro.addEventListener('change', calcular);pagamento.addEventListener('change', () => {pixBox.classList.add('hidden');dinheiroBox.classList.add('hidden');cartaoBox.classList.add('hidden');
+  subtotalEl.innerText = subtotal.toFixed(2).replace('.', ',');
+  taxaEl.innerText = taxaEntrega.toFixed(2).replace('.', ',');
+  totalEl.innerText = total.toFixed(2).replace('.', ',');
+}
 
-if(pagamento.value === 'PIX') pixBox.classList.remove('hidden');if(pagamento.value === 'DINHEIRO') dinheiroBox.classList.remove('hidden');if(pagamento.value === 'CARTAO') cartaoBox.classList.remove('hidden');
+marcaSelect.addEventListener('change', calcular);
+bairro.addEventListener('change', calcular);
+pagamento.addEventListener('change', () => {
+  pixBox.classList.add('hidden');
+  dinheiroBox.classList.add('hidden');
+  cartaoBox.classList.add('hidden');
+  if (pagamento.value === 'PIX') pixBox.classList.remove('hidden');
+  if (pagamento.value === 'DINHEIRO') dinheiroBox.classList.remove('hidden');
+  if (pagamento.value === 'CARTAO') cartaoBox.classList.remove('hidden');
+  calcular();
+});
 
-calcular();});
+precisaTroco.addEventListener('change', () => {
+  trocoPara.classList.toggle('hidden', !precisaTroco.checked);
+});
 
-precisaTroco.addEventListener('change', () => {trocoPara.classList.toggle('hidden', !precisaTroco.checked);});/* ENVIO WHATSAPP */document.getElementById('order-form').addEventListener('submit', e => {e.preventDefault();
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 3000);
+}
 
-if(pagamento.value === 'CARTAO' && !tipoCartao.value){alert('Selecione Débito ou Crédito');return;}
+document.getElementById('order-form').addEventListener('submit', e => {
+  e.preventDefault();
 
-if(pagamento.value === 'DINHEIRO' && precisaTroco.checked && !trocoPara.value){alert('Informe o valor do troco');return;}
+  if (pagamento.value === 'CARTAO' && !tipoCartao.value) { showToast('Selecione Débito ou Crédito'); return; }
+  if (pagamento.value === 'DINHEIRO' && precisaTroco.checked && !trocoPara.value) { showToast('Informe o valor do troco'); return; }
 
-let anosTxt = '';document.querySelectorAll('.validade').forEach((c, i) => {anosTxt += \n• Garrafão ${i+1}: ${c.value};});
+  let anosTxt = '';
+  document.querySelectorAll('.validade').forEach((c, i) => { anosTxt += `\n• Garrafão ${i+1}: ${c.value}`; });
 
-const marcaNome = marcas[marcaSelect.value].nome;
+  const marcaNome = marcas[marcaSelect.value].nome;
+  let formaPagamento = pagamento.value;
+  if (formaPagamento === 'CARTAO') formaPagamento += ` (${tipoCartao.value})`;
+  if (formaPagamento === 'DINHEIRO' && precisaTroco.checked) formaPagamento += ` (Troco para R$ ${trocoPara.value})`;
 
-let formaPagamento = pagamento.value;
+  let condoTxt = '';
+  if (isCondominio.checked) {
+    const bloco = document.getElementById('bloco').value;
+    const apto = document.getElementById('apartamento').value;
+    condoTxt = `\n\n🏢 Condomínio/Apartamento`;
+    if (bloco) condoTxt += `\nBloco/Torre: ${bloco}`;
+    if (apto) condoTxt += `\nApartamento: ${apto}`;
+    if (temEscada.checked && andaresInput.value) {
+      condoTxt += `\nAndares (escada): ${andaresInput.value}`;
+    }
+  }
 
-if (formaPagamento === 'CARTAO') {formaPagamento +=  (${tipoCartao.value});}
+  const msg = `*NOVO PEDIDO*\n${document.getElementById('nome').value}\n${document.getElementById('telefone').value}\n\n${bairro.value}\n${document.getElementById('complemento').value}${condoTxt}\n\nMarca: ${marcaNome}\n\nProdutos:\n• Completo: ${qtdCompleto.value}\n• Troca: ${qtdTroca.value}${anosTxt}\n\nPagamento: ${formaPagamento}\n\nTotal: R$ ${totalEl.innerText}`;
 
-if (formaPagamento === 'DINHEIRO' && precisaTroco.checked) {formaPagamento +=  (Troco para R$ ${trocoPara.value});}
-
-const msg = `NOVO PEDIDO${nome.value}${telefone.value}
-
-${bairro.value}${complemento.value}
-
-Marca: ${marcaNome}
-
-Produtos:• Completo: ${qtdCompleto.value}• Troca: ${qtdTroca.value}${anosTxt}
-
-Pagamento: ${formaPagamento}
-
-Total: R$ ${totalEl.innerText}`;
-
-window.open(https://wa.me/5571991167085?text=${encodeURIComponent(msg)},'_blank');});
-
+  window.open(`https://wa.me/5571991167085?text=${encodeURIComponent(msg)}`, '_blank');
+});
 </script>
-
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a159040ef56bacbf',t:'MTc4MzExNDQ4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
